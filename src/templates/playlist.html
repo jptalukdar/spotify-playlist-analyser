@@ -52,17 +52,31 @@
 
             <div class="h-5 flex flex-col">
 
-
             </div>
 
 
             <div class="h-auto flex flex-col gap-4 items-center justify-center bg-gray-900">
-                <div>
-                    <hr class="border-b-2 border-gray-200">
-                    <p>
-                        Recommendation based on {{ source['type'] }} - {{ source['name'] }}
+                <div class="flex gap-4 bg-gray-600 w-full items-center justify-center h-12 ">
+                    <p class="font-mono text-white">
+                        Recommendation based on {{ source['type'] }} : "{{ source['name'] }}" By {{ source['author'] }}
                     </p>
+
+                    <!-- <div>
+                        <form action="/create/url" method="post">
+                            <input type="hidden" name="url" value="{{ source['id'] }}">
+                            <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create Playlist</button>
+                            <p>Play</p>
+                        </form>
+                    </div> -->
                 </div>
+
+                <!-- Feature analysis -->
+                <!-- <div class="flex gap-4 bg-gray-600 w-full items-center justify-center h-12 ">
+                    <p class="font-mono text-white">
+                        Recommendation based on {{ source['type'] }} : "{{ source['name'] }}" By {{ source['author'] }}
+                    </p>
+                </div> -->
+                <!-- End Feature analysis -->
                 {% for track in track_details %}
                 <!-- Card Start -->
                 <div class="grid grid-cols-6 gap-4 gap-y-2">

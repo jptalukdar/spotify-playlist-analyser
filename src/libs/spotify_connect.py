@@ -49,8 +49,8 @@ def get_available_genre(**kwargs):
   genres = genre.get("genre",sf.recommendation_genre_seeds, no_kwargs=True, no_args=True)
   return genres
 
-def create_playlist(name, **kwargs):
-  playlist = sf.user_playlist_create(sf.current_user()["id"], name, public=True, description="")
+def create_playlist(name, description="", **kwargs):
+  playlist = sf.user_playlist_create(sf.current_user()["id"], name, public=True, description=description)
   return playlist
 
 def add_to_playlist(playlist_id, tracks, **kwargs):

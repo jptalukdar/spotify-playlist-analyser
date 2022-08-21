@@ -68,7 +68,7 @@ search_track_id = "2eAvDnpXP5W0cVtiI0PUxV"
 def retrieve_track_info(search_track_id):
   feature_set = {}
   # for track_id in tracks_from_playlist:
-  tracks.get(search_track_id,spotify_connect.get_track)
+  track_details = tracks.get(search_track_id,spotify_connect.get_track)
   audio_features.get(search_track_id,spotify_connect.get_track_acoustics)
   feature_set[search_track_id] = create_feature(search_track_id)
 
@@ -80,10 +80,10 @@ def retrieve_track_info(search_track_id):
   if playlist_feature["instrumentalness"] == 0:
     playlist_feature["instrumentalness"] = 0.1
   
-  return playlist_feature
+  return playlist_feature, track_details
 
 def get_recommendations(search_track_id, **kwargs):
-  playlist_feature = retrieve_track_info(search_track_id)
+  playlist_feature, track = retrieve_track_info(search_track_id)
   recommendations = recommend_playlist(search_track_id, playlist_feature, search_track_id, **kwargs)
 
   tracks_details = []
@@ -104,8 +104,14 @@ def get_recommendations(search_track_id, **kwargs):
     audio_features.get(tracks["id"],spotify_connect.get_track_acoustics)
     print(song_details)
   results = {"tracks" : tracks_details, "id": search_track_id}
+  source = {
+    "type" : "track",
+    "id" : f"spotify:track:{search_track_id}",
+    "name" : track["name"],
+    "author" : track["artists"][0]["name"],
+  }
   recommended_tracks.set(search_track_id,results)
-  return results
+  return results, source
 
 def add_feature(name, id, min, max, default, step=1):
   return {

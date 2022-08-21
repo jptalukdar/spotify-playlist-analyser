@@ -45,7 +45,12 @@ def recommend_playlist(tracks, feature, playlist_id, **kwargs):
   target_args = { f"target_{key}": feature[key] for key in selected_features }
   print(target_args)
   seed_tracks = random.sample(tracks, 5)
-  r_tracks = rec.get(playlist_id, lambda x: spotify_connect.get_recommendations(seed_tracks, **target_args), no_kwargs=True, **kwargs)
+  playlist_id = f"playlist_{playlist_id}"
+  if rec.check_cache(playlist_id):
+    return rec.get(playlist_id)
+  else:  
+    r_tracks = spotify_connect.get_recommendations(seed_tracks, **target_args)
+  # r_tracks = rec.get(playlist_id, lambda x: , no_kwargs=True, **kwargs)
   # r_tracks = spotify_connect.get_recommendations(seed_tracks, **target_args)
   print(r_tracks)
   return r_tracks
@@ -110,9 +115,15 @@ def get_recommendations(playlist_id, **kwargs):
     audio_features.get(tracks["id"],spotify_connect.get_track_acoustics)
     print(song_details)
 
+  source = {
+    "type" : "track",
+    "id" : f"spotify:playlist:{playlist_id}",
+    "name" : playlist['name'],
+    "author" : playlist['owner']['display_name'],
+  }
   results = {"tracks" : tracks_details, "id": playlist_id, "name": playlist["name"]}
   recommended_tracks.set(playlist_id,results)
-  return results
+  return results, source
 
 
 if __name__ == "__main__":

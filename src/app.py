@@ -1,6 +1,7 @@
 import imp
 from libs import utilis, spotify_connect
 from flask import Flask, render_template, request
+import create_playlist as cp
 import analyse_custom_playlist as acp
 import find_songs as fs
 app = Flask(__name__)
@@ -21,13 +22,43 @@ def analysis(name=None):
  
   entity_type, entity_id = utilis.validate_extract_spotify_url(name)
   if entity_type == "playlist":
-    source, results = acp.get_recommendations(entity_id)
+    results, source = acp.get_recommendations(entity_id)
     return render_template("playlist.html",track_details=results["tracks"], source=source)
   elif entity_type == "track":
-    source, results = fs.get_recommendations(entity_id,limit=10)
+    results, source = fs.get_recommendations(entity_id,limit=10)
     return render_template("playlist.html",track_details=results["tracks"], source=source)
   else:
     return render_template("404.html")
+
+# @app.route("/create/<name>",methods=['GET', 'POST'])
+# def create_playlist(name=None):
+#   if name is None:
+#     return "Name is none"
+#   if name == "url":
+#     data = request.form.get("url")
+#     name = data
+#     print(request.form)
+#     if data is None:
+#       args = request.args
+#       name = str(args.get("url"))
+#       if name is None:
+#         return "Data is none"
+ 
+#   entity_type, entity_id = utilis.validate_extract_spotify_url(name)
+#   if entity_type == "playlist":
+#     results, source = acp.get_recommendations(entity_id)
+#     # return render_template("playlist.html",track_details=results["tracks"], source=source)
+#   elif entity_type == "track":
+#     results, source = fs.get_recommendations(entity_id,limit=10)
+#     # return render_template("playlist.html",track_details=results["tracks"], source=source)
+#   else:
+#     return render_template("404.html")
+  
+#   play = cp.create_playlist(results["tracks"],
+#       playlist_name=f'{source["name"]} - {source["author"]} - {source["type"]}' , 
+#       playlist_description=f'Awesome playlist based on {source["type"]} : {source["name"]} By {source["author"]}')
+#   return render_template("playlist.html",track_details=results["tracks"], source=source, playlist_created=True)
+
 
 @app.route("/",methods=['GET', 'POST'])
 def search_page():
