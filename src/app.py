@@ -1,5 +1,5 @@
 import imp
-from libs import utilis
+from libs import utilis, spotify_connect
 from flask import Flask, render_template, request
 import analyse_custom_playlist as acp
 import find_songs as fs
@@ -21,13 +21,13 @@ def analysis(name=None):
  
   entity_type, entity_id = utilis.validate_extract_spotify_url(name)
   if entity_type == "playlist":
-    results = acp.get_recommendations(entity_id)
-    return render_template("playlist.html",track_details=results["tracks"])
+    source, results = acp.get_recommendations(entity_id)
+    return render_template("playlist.html",track_details=results["tracks"], source=source)
   elif entity_type == "track":
-    results = fs.get_recommendations(entity_id,limit=10)
-    return render_template("playlist.html",track_details=results["tracks"])
+    source, results = fs.get_recommendations(entity_id,limit=10)
+    return render_template("playlist.html",track_details=results["tracks"], source=source)
   else:
-    return f"Unable to extract playlist or track id from url"
+    return render_template("404.html")
 
 @app.route("/",methods=['GET', 'POST'])
 def search_page():

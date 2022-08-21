@@ -4,7 +4,14 @@ from spotipy.oauth2 import SpotifyClientCredentials
 from .data_context_manager import DataBlock
 
 var = catilo.VariableDirectory()
-var.add_file_source("spotify", 4, "/secrets/spotify.json")
+def load_file(var:catilo.VariableDirectory, path:str, priority:int=4):
+  try:
+     var.add_file_source("spotify", priority, path)
+  except Exception as e:
+    print(e)
+    pass
+load_file(var,"/secrets/spotify.json" )
+load_file(var,"secrets/spotify.json" )
 var.enable_environment_vars(prefix="SPOTIFY_")
 
 CLIENT_ID = var.get("SPOTIFY_CLIENT_ID")
@@ -41,3 +48,12 @@ genre = DataBlock("genre")
 def get_available_genre(**kwargs):
   genres = genre.get("genre",sf.recommendation_genre_seeds, no_kwargs=True, no_args=True)
   return genres
+
+def create_playlist(name, **kwargs):
+  playlist = sf.user_playlist_create(sf.current_user()["id"], name, public=True, description="")
+  return playlist
+
+def add_to_playlist(playlist_id, tracks, **kwargs):
+  for track in tracks:
+    sf.user_playlist_add_tracks(sf.current_user()["id"], playlist_id, track)
+  return True
