@@ -44,7 +44,8 @@ def search():
   print(seeds)
   return render_template("search.html",slider_features=fs.get_feature_set(),available_genre=seeds['genres'])
 
-app.run(host="0.0.0.0" ,port=8000,debug=True)
+if __name__ == "__main__":
+  app.run(host="0.0.0.0" ,port=8000,debug=True)
 
 
 # https://open.spotify.com/track/spotify:track:4fouWK6XVHhzl78KzQ1UjL?si=247685a0da2a439f

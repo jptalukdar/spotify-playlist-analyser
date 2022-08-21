@@ -4,7 +4,7 @@ from spotipy.oauth2 import SpotifyClientCredentials
 from .data_context_manager import DataBlock
 
 var = catilo.VariableDirectory()
-var.add_file_source("spotify", "/secrets/spotify.json")
+var.add_file_source("spotify", 4, "/secrets/spotify.json")
 var.enable_environment_vars(prefix="SPOTIFY_")
 
 CLIENT_ID = var.get("SPOTIFY_CLIENT_ID")

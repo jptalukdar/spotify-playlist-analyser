@@ -1,0 +1,1 @@
+docker run -it -v D:\Projects\Github.com\spotify-playlist-analyser\secrets:/secrets -p 8000:8000 jyotiplaban.jfrog.io/github-docker/spotify-analyser:latest

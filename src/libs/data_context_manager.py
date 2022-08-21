@@ -4,16 +4,18 @@ import json
 class DataBlock():
     data = {}
     lazy_loading = True
-    def __init__(self, cache_dir):
+    def __init__(self, name, cache_dir="dataset"):
         self.data = {}
-        self.set_cache_dir(cache_dir)
+        if cache_dir == None:
+            cache_dir = name
+        self.set_cache_dir(cache_dir+"/"+name)
         # if not self.lazy_loading:
           
     
     def set_cache_dir(self, dir):
         self.cache_dir = dir
         try:
-            os.mkdir(self.cache_dir)
+            os.makedirs(self.cache_dir, exist_ok=True)
         except FileExistsError:
             pass
 

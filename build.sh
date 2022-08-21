@@ -1,0 +1,1 @@
+docker build -t jyotiplaban.jfrog.io/github-docker/spotify-analyser:latest .

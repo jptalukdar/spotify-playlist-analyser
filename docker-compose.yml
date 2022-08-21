@@ -1,6 +1,11 @@
 version: '3.3'
 services:
   spotify:
-    image: docker.io/jyotiplabant/docker/spotify:latest
+    image: jyotiplaban.jfrog.io/github-docker/spotify-analyser:latest
     ports:
-      - "80:8000"
+      - "8000:8000"
+    volumes:
+      - /opt/spotify/volume/:/code/dataset/
+      - /opt/spotify/secrets:/secrets
+    
+  

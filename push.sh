@@ -1,0 +1,1 @@
+docker push jyotiplaban.jfrog.io/github-docker/spotify-analyser:latest

@@ -1,4 +1,4 @@
-From python:3.9.7-alpine3.14 as base
+FROM python:3.9.7-alpine3.14 as base
 ## add any packages required for build
 RUN apk add gcc \
     musl-dev \
@@ -22,5 +22,6 @@ FROM python:3.9.7-alpine3.14
 WORKDIR /code 
 COPY --from=base /packages/wheel/ /packages/wheel/
 RUN cd /packages/wheel/pkg && pip install * 
+RUN pip install gunicorn catilo
 COPY src/ /code/
-CMD ["gunicorn "]
+CMD ["sh" , "-c" , "gunicorn --bind 0.0.0.0:8000 wsgi:app"]
