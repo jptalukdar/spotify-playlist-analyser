@@ -1,0 +1,4 @@
+catilo
+flask
+spotipy
+gunicorn

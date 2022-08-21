@@ -1,0 +1,6 @@
+version: '3.3'
+services:
+  spotify:
+    image: docker.io/jyotiplabant/docker/spotify:latest
+    ports:
+      - "80:8000"
